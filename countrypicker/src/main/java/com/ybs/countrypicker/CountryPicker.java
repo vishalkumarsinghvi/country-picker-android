@@ -56,9 +56,9 @@ public class CountryPicker extends DialogFragment {
         if(args != null) {
             String dialogTitle = args.getString("dialogTitle");
             this.getDialog().setTitle(dialogTitle);
-            int width = this.getResources().getDimensionPixelSize(dimen.cp_dialog_width);
-            int height = this.getResources().getDimensionPixelSize(dimen.cp_dialog_height);
-            this.getDialog().getWindow().setLayout(width, height);
+//             int width = this.getResources().getDimensionPixelSize(dimen.cp_dialog_width);
+//             int height = this.getResources().getDimensionPixelSize(dimen.cp_dialog_height);
+//             this.getDialog().getWindow().setLayout(width, height);
         }
 
         this.searchEditText = (EditText)view.findViewById(id.country_code_picker_search);
