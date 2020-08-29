@@ -56,7 +56,7 @@ public class CountryPicker extends DialogFragment {
         if(args != null) {
             String dialogTitle = args.getString("dialogTitle");
             this.getDialog().setTitle(dialogTitle);
-            this.getDialog().setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+            this.getDialog().setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
        
 //             int width = this.getResources().getDimensionPixelSize(dimen.cp_dialog_width);
 //             int height = this.getResources().getDimensionPixelSize(dimen.cp_dialog_height);
