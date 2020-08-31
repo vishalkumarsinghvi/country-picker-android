@@ -13,16 +13,13 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.ybs.countrypicker.R.id;
+import com.ybs.countrypicker.R.layout;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import com.ybs.countrypicker.Country;
-import com.ybs.countrypicker.CountryAdapter;
-import com.ybs.countrypicker.CountryPickerListener;
-import com.ybs.countrypicker.R.dimen;
-import com.ybs.countrypicker.R.id;
-import com.ybs.countrypicker.R.layout;
 
 /**
  * Created by mispc1 on 8/29/17.
@@ -33,7 +30,7 @@ public class CountryPicker extends DialogFragment {
     private EditText searchEditText;
     private ListView countryListView;
     private CountryAdapter adapter;
-    private List<Country> countriesList = new ArrayList();
+    private final List<Country> countriesList = new ArrayList();
     private List<Country> selectedCountriesList = new ArrayList();
     private CountryPickerListener listener;
     private Context context;
@@ -51,28 +48,28 @@ public class CountryPicker extends DialogFragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(layout.country_picker, (ViewGroup)null);
+        View view = inflater.inflate(layout.country_picker, null);
         Bundle args = this.getArguments();
-        if(args != null) {
+        if (args != null) {
             String dialogTitle = args.getString("dialogTitle");
             this.getDialog().setTitle(dialogTitle);
-            this.getDialog().setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-       
+            setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
 //             int width = this.getResources().getDimensionPixelSize(dimen.cp_dialog_width);
 //             int height = this.getResources().getDimensionPixelSize(dimen.cp_dialog_height);
 //             this.getDialog().getWindow().setLayout(width, height);
         }
 
-        this.searchEditText = (EditText)view.findViewById(id.country_code_picker_search);
-        this.countryListView = (ListView)view.findViewById(id.country_code_picker_listview);
+        this.searchEditText = view.findViewById(id.country_code_picker_search);
+        this.countryListView = view.findViewById(id.country_code_picker_listview);
         this.selectedCountriesList = new ArrayList(this.countriesList.size());
         this.selectedCountriesList.addAll(this.countriesList);
         this.adapter = new CountryAdapter(this.getActivity(), this.selectedCountriesList);
         this.countryListView.setAdapter(this.adapter);
         this.countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(CountryPicker.this.listener != null) {
-                    Country country = (Country)CountryPicker.this.selectedCountriesList.get(position);
+                if (CountryPicker.this.listener != null) {
+                    Country country = CountryPicker.this.selectedCountriesList.get(position);
                     CountryPicker.this.listener.onSelectCountry(country.getName(), country.getCode(), country.getDialCode(), country.getFlag());
                 }
 
@@ -101,9 +98,9 @@ public class CountryPicker extends DialogFragment {
         this.selectedCountriesList.clear();
         Iterator var2 = this.countriesList.iterator();
 
-        while(var2.hasNext()) {
-            Country country = (Country)var2.next();
-            if(country.getName().toLowerCase(Locale.ENGLISH).contains(text.toLowerCase())) {
+        while (var2.hasNext()) {
+            Country country = (Country) var2.next();
+            if (country.getName().toLowerCase(Locale.ENGLISH).contains(text.toLowerCase())) {
                 this.selectedCountriesList.add(country);
             }
         }
@@ -114,6 +111,14 @@ public class CountryPicker extends DialogFragment {
     public void setCountriesList(List<Country> newCountries) {
         this.countriesList.clear();
         this.countriesList.addAll(newCountries);
+    }
+
+    public String getCountryName(String countryCode){
+       return Country.getCountryByISO(countryCode).getName();
+    }
+
+    public void setCountryCodeSelected(String countryCode){
+        CountryAdapter.setCountryCodeSelected(countryCode);
     }
 
 }

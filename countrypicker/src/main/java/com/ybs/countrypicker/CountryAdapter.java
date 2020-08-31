@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.util.List;
+
 import com.ybs.countrypicker.R.id;
 import com.ybs.countrypicker.R.layout;
+
+import java.util.List;
 
 /**
  * Created by mispc1 on 8/29/17.
@@ -20,6 +22,7 @@ public class CountryAdapter extends BaseAdapter {
     private Context mContext;
     List<Country> countries;
     LayoutInflater inflater;
+    static String countryCodeSelected = "";
 
     public CountryAdapter(Context context, List<Country> countries) {
         this.mContext = context;
@@ -51,13 +54,21 @@ public class CountryAdapter extends BaseAdapter {
         if(country.getFlag() != -1) {
             cell.imageView.setImageResource(country.getFlag());
         }
+        if (!countryCodeSelected.isEmpty() && country.getCode().equals(countryCodeSelected)) {
+            cell.selectIcon.setVisibility(View.VISIBLE);
+        } else {
+            cell.selectIcon.setVisibility(View.GONE);
+        }
 
         return view;
+    }
+    public static void setCountryCodeSelected(String codeSelected){
+        countryCodeSelected=codeSelected;
     }
 
     static class Cell {
         public TextView textView;
-        public ImageView imageView;
+        public ImageView imageView,selectIcon;
 
         Cell() {
         }
@@ -69,6 +80,7 @@ public class CountryAdapter extends BaseAdapter {
                 CountryAdapter.Cell cell = new CountryAdapter.Cell();
                 cell.textView = (TextView)view.findViewById(id.row_title);
                 cell.imageView = (ImageView)view.findViewById(id.row_icon);
+                cell.selectIcon = (ImageView)view.findViewById(id.select_icon);
                 view.setTag(cell);
                 return cell;
             } else {
